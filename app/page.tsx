@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { OnboardingScreen } from "@/components/onboarding-screen"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { TaskCard } from "@/components/task-card"
 import { EditTaskDialog } from "@/components/edit-task-dialog"
@@ -14,6 +15,7 @@ import { getTasks, getFolders, updateTask, initializeDefaultFolders, type Task, 
 import { CheckCircle2, FolderOpen, Home } from "lucide-react"
 
 export default function HomePage() {
+  const [showOnboarding, setShowOnboarding] = useState(true)
   const [activeTab, setActiveTab] = useState<"home" | "folders" | "calendar" | "settings">("home")
   const [tasks, setTasks] = useState<Task[]>([])
   const [folders, setFolders] = useState<Folder[]>([])
@@ -22,10 +24,20 @@ export default function HomePage() {
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null)
 
   useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem("tasklet-onboarding-complete")
+    if (hasSeenOnboarding) {
+      setShowOnboarding(false)
+    }
+
     initializeDefaultFolders()
     setTasks(getTasks())
     setFolders(getFolders())
   }, [])
+
+  const handleGetStarted = () => {
+    localStorage.setItem("tasklet-onboarding-complete", "true")
+    setShowOnboarding(false)
+  }
 
   const refreshData = () => {
     setTasks(getTasks())
@@ -68,6 +80,10 @@ export default function HomePage() {
 
   const getFolderName = (folderId?: string) => {
     return folders.find((f) => f.id === folderId)?.name
+  }
+
+  if (showOnboarding) {
+    return <OnboardingScreen onGetStarted={handleGetStarted} />
   }
 
   if (selectedFolderId) {
