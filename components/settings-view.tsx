@@ -186,7 +186,7 @@ export function SettingsView() {
               </div>
 
               <div className="pt-2 border-t text-center">
-                <p className="text-xs text-muted-foreground">Version 1.0.0 • Built with Next.js & TailwindCSS</p>
+                <p className="text-xs text-muted-foreground">Version 1.0.0 • Built by Mr Rehan</p>
               </div>
             </div>
           </CardContent>
