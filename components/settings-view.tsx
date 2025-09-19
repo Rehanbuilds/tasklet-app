@@ -7,27 +7,40 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { ExportDialog } from "@/components/export-dialog"
 import { AppHeader } from "@/components/app-header"
+import { FolderCard } from "@/components/folder-card"
 import { useTheme } from "@/hooks/use-theme"
-import { Moon, Sun, Download, Trash2, Info, Settings } from "lucide-react"
-import { getTasks, getFolders } from "@/lib/storage"
+import { Moon, Sun, Download, Trash2, Info, Settings, CheckCircle2, User } from "lucide-react"
+import { getTasks, getFolders, COMPLETED_TASKS_FOLDER_ID } from "@/lib/storage"
 
 export function SettingsView() {
   const { isDarkMode, toggleTheme, mounted } = useTheme()
   const [taskCount, setTaskCount] = useState(0)
   const [folderCount, setFolderCount] = useState(0)
+  const [completedTasksCount, setCompletedTasksCount] = useState(0)
+  const [userName, setUserName] = useState<string | null>(null)
 
   useEffect(() => {
-    setTaskCount(getTasks().length)
+    const tasks = getTasks()
+    const completedTasks = tasks.filter((task) => task.status === "Completed")
+    setTaskCount(tasks.length)
     setFolderCount(getFolders().length)
+    setCompletedTasksCount(completedTasks.length)
+
+    const storedName = localStorage.getItem("tasklet_user_name")
+    setUserName(storedName)
   }, [])
 
   const handleClearAllData = () => {
     if (confirm("Are you sure you want to clear all data? This action cannot be undone.")) {
       localStorage.removeItem("tasklet_tasks")
       localStorage.removeItem("tasklet_folders")
+      localStorage.removeItem("tasklet_user_name")
+      localStorage.removeItem("tasklet-onboarding-complete")
       window.location.reload()
     }
   }
+
+  const completedTasksFolder = getFolders().find((folder) => folder.id === COMPLETED_TASKS_FOLDER_ID)
 
   if (!mounted) {
     return null
@@ -42,6 +55,47 @@ export function SettingsView() {
       />
 
       <div className="container mx-auto px-4 py-6 space-y-6">
+        {userName && (
+          <Card className="border-2 border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <User className="h-6 w-6 text-primary" />
+                Profile
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-4 p-4 bg-primary/5 rounded-lg">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <User className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Welcome back, {userName}!</h3>
+                  <p className="text-sm text-muted-foreground">Keep up the great work with your tasks</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {completedTasksFolder && completedTasksCount > 0 && (
+          <Card className="border-2 border-green-200 dark:border-green-800">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <CheckCircle2 className="h-6 w-6 text-green-600" />
+                Completed Tasks
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FolderCard
+                folder={completedTasksFolder}
+                taskCount={completedTasksCount}
+                onClick={() => {}} // Will be handled by parent component
+                onFolderDeleted={() => {}} // Completed folder shouldn't be deletable
+              />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Appearance */}
         <Card className="border-2 border-primary/10">
           <CardHeader>

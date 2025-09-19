@@ -53,7 +53,7 @@ export function TaskCard({
             checked={completed}
             onCheckedChange={() => onToggleComplete(id)}
             onClick={(e) => e.stopPropagation()}
-            className="mt-1"
+            className="mt-1 border-2 border-purple-500 data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500"
           />
           <div className="flex-1 space-y-2">
             <div className="flex items-start justify-between gap-2">

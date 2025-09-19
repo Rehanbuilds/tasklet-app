@@ -53,11 +53,21 @@ export function addTask(task: Omit<Task, "id" | "createdAt">): Task {
   return newTask
 }
 
+export const COMPLETED_TASKS_FOLDER_ID = "completed-tasks-folder"
+
 export function updateTask(id: string, updates: Partial<Task>): void {
   const tasks = getTasks()
   const index = tasks.findIndex((task) => task.id === id)
   if (index !== -1) {
-    tasks[index] = { ...tasks[index], ...updates }
+    const updatedTask = { ...tasks[index], ...updates }
+
+    if (updates.status === "Completed") {
+      updatedTask.folderId = COMPLETED_TASKS_FOLDER_ID
+    } else if (updates.status === "Pending" && tasks[index].folderId === COMPLETED_TASKS_FOLDER_ID) {
+      updatedTask.folderId = undefined
+    }
+
+    tasks[index] = updatedTask
     saveTasks(tasks)
   }
 }
@@ -111,12 +121,20 @@ export function initializeDefaultFolders(): void {
   if (typeof window === "undefined") return
 
   const existingFolders = getFolders()
+
+  const hasCompletedFolder = existingFolders.some((folder) => folder.id === COMPLETED_TASKS_FOLDER_ID)
+
   if (existingFolders.length === 0) {
     const defaultFolders = [
       { id: crypto.randomUUID(), name: "Work/Project", createdAt: new Date() },
       { id: crypto.randomUUID(), name: "Study", createdAt: new Date() },
       { id: crypto.randomUUID(), name: "Other", createdAt: new Date() },
+      { id: COMPLETED_TASKS_FOLDER_ID, name: "Completed Tasks", createdAt: new Date() },
     ]
     saveFolders(defaultFolders)
+  } else if (!hasCompletedFolder) {
+    const completedFolder = { id: COMPLETED_TASKS_FOLDER_ID, name: "Completed Tasks", createdAt: new Date() }
+    existingFolders.push(completedFolder)
+    saveFolders(existingFolders)
   }
 }

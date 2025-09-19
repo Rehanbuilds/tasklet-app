@@ -34,7 +34,7 @@ export default function HomePage() {
     setFolders(getFolders())
   }, [])
 
-  const handleGetStarted = () => {
+  const handleOnboardingComplete = () => {
     localStorage.setItem("tasklet-onboarding-complete", "true")
     setShowOnboarding(false)
   }
@@ -83,7 +83,7 @@ export default function HomePage() {
   }
 
   if (showOnboarding) {
-    return <OnboardingScreen onGetStarted={handleGetStarted} />
+    return <OnboardingScreen onComplete={handleOnboardingComplete} />
   }
 
   if (selectedFolderId) {
