@@ -1,30 +1,56 @@
-# Tasklet app build
+# tasklet-app
+
+![Build Status](https://github.com/Rehanbuilds/tasklet-app/workflows/CI/badge.svg) ![GitHub Stars](https://img.shields.io/github/stars/Rehanbuilds/tasklet-app?style=social) ![GitHub Issues](https://img.shields.io/github/issues/Rehanbuilds/tasklet-app) ![Last Commit](https://img.shields.io/github/last-commit/Rehanbuilds/tasklet-app) ![Code Coverage](https://img.shields.io/codecov/c/github/Rehanbuilds/tasklet-app) 
 
 *Automatically synced with your [v0.app](https://v0.app) deployments*
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/rehan-builds-projects/v0-tasklet-app-build)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/wAcmZ7kEasK)
+## 🔗 Demo
 
-## Overview
+[Live Demo](https://taskleto.vercel.app)
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## 🛠 Tech Stack
 
-## Deployment
+- TypeScript
+- CSS
+- JavaScript
 
-Your project is live at:
+## 📦 Installation
 
-**[https://vercel.com/rehan-builds-projects/v0-tasklet-app-build](https://vercel.com/rehan-builds-projects/v0-tasklet-app-build)**
+Clone the repository:
 
-## Build your app
+```bash
+git clone https://github.com/Rehanbuilds/tasklet-app
+cd tasklet-app
+```
 
-Continue building your app on:
+Install dependencies:
 
-**[https://v0.app/chat/projects/wAcmZ7kEasK](https://v0.app/chat/projects/wAcmZ7kEasK)**
+```bash
+npm install
+```
 
-## How It Works
+## ▶️ Usage
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+```bash
+npm run dev
+```
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](https://github.com/Rehanbuilds/tasklet-app/issues).
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 👤 Author
+
+**Rehan▲**
+
+- GitHub: [@Rehanbuilds](https://github.com/Rehanbuilds)
+
+## ⭐ Show your support
+
+Give a ⭐️ if this project helped you!
